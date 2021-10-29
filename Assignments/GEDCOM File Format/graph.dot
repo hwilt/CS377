@@ -1,0 +1,15 @@
+digraph G { 
+ 	node [shape = box]
+	I1 [label= "Kelly Lee
+MOTHER"]
+	I1 -> I2 [label = "Child"]
+	I1 -> I3 [label = "Child"]
+	I1 -> I4 [arrowhead=none; label = "Married"]
+	I2 [label= "Chris Lee
+CHILD"]
+	I3 [label= "Bob Lee
+CHILD"]
+	I4 [label= "Tyler Lee
+FATHER"]
+	 { rank = same; I1, I4}
+}

@@ -1,0 +1,32 @@
+0 @I1@ INDI
+1 NAME Kelly /Lee/
+2 SURN Lee
+2 GIVN Kelly
+1 SEX F
+1 BIRT
+2 DATE 1 Jan 1990
+2 PLAC Collegeville, Pennsylvania, United States of America
+1 FAMC @F1@
+0 @I2@ INDI
+1 NAME Chris /Lee/
+2 SURN Lee
+2 GIVN Chris
+1 SEX M
+1 FAMC @F1@
+0 @I3@ INDI
+1 NAME Bob /Lee/
+2 SURN Lee
+2 GIVN Bob
+1 SEX M
+1 FAMC @F1@
+0 @I4@ INDI
+1 NAME Tyler /Lee/
+2 SURN Lee
+2 GIVN Tyler
+1 SEX M
+1 FAMC @F1@
+0 @F1@ FAM
+1 WIFE @I1@
+1 CHIL @I2@
+1 CHIL @I3@
+1 HUSB @I4@
