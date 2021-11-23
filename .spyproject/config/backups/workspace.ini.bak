@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['Assignments\\Database_Programming\\Database_Sqlite3.py', 'Assignments\\Database_Programming\\main.py', 'Assignments\\Database_Programming\\main.db', 'Assignments\\Database_Programming\\README.md']
+recent_files = ['Assignments\\SQL_Programming\\main.py', 'Assignments\\SQL_Programming\\SQlite3.py', 'Assignments\\SQL_Programming\\README.md', 'Assignments\\SQL_Programming_BaseballDatabase\\main.py']
 
 [main]
 version = 0.2.0
