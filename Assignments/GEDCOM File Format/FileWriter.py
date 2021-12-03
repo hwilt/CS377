@@ -31,30 +31,6 @@ class FileWriter:
     :raises TypeError: if the data parameter is a type other than dict
     '''
     def write_record(self, family):
-        '''
-        MOM_DAD = False
-        
-        print("digraph G {")
-        print("\t node [shape = box]")
-        for person in family.keys():
-            print("\t" + person + " [label= \"" +  family[person]['name'] + "\n" + family[person]['relationship'] + "\"]")
-            if family[person]['relationship'] != 'CHILD' and not MOM_DAD:
-                MOM_DAD = True    
-                for children in family.keys():
-                    if family[children]['relationship'] == 'CHILD':
-                        print("\t" + family[person]['id'] + " -> " + family[children]['id'])
-                    elif family[children]['relationship']  == 'FATHER' and family[person]['relationship'] != 'FATHER':
-                        print("\t" + family[person]['id'] + " -> " + family[children]['id'] + " [arrowhead=none; label = \"Married\"]")
-                    elif family[children]['relationship']  == 'MOTHER' and family[person]['relationship'] != 'MOTHER':
-                        print("\t" + family[person]['id'] + " -> " + family[children]['id'] + " [arrowhead=none; label = \"Married\"]")
-        for parent in family.keys():
-            if family[parent]['relationship'] == 'MOTHER':
-                for _parent in family.keys():
-                    if family[_parent]['relationship'] == 'FATHER':
-                        print("\t { rank = same; " + family[parent]['id'] + ", " + family[_parent]['id'] + "}")
-      
-        print("}")
-        '''
         MOM_DAD = False
         if isinstance(family, dict): # ensure data is a dict
         # write header if the file is empty
