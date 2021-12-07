@@ -1,3 +1,4 @@
+
 import redis
 import FileReader
 import PersonWriter
@@ -14,40 +15,57 @@ def make_graph():
 	redisdb.flushdb()
 	return Graph('social', redisdb)
 
+
 def makeNodes(family, graph):
 	nodes = []
 	for person in family.keys():
 		if family[person]['relationship'] == 'MOTHER':
-			nodes.append(["MOTHER", Node(label = "MOTHER", properties=family[person])])
+			nodes.append(["MOTHER", Node(label = "PARENT", properties=family[person])])
 		elif family[person]['relationship'] == 'FATHER':
-			nodes.append(["FATHER", Node(label = "FATHER", properties=family[person])])
+			nodes.append(["FATHER", Node(label = "PARENT", properties=family[person])])
 		else:
 			nodes.append(["CHILD", Node(label = "CHILD", properties=family[person])])
 	for node in nodes:
-		graph.add_node(node)
+		graph.add_node(node[1])
+		#print(node[1])
+	
+	for node in nodes:
 		if node[0] == "MOTHER":
 			for innerNode in nodes:
-				if node[0] == "FATHER":
-					married = Edge(node, 'Married', innnerNode)
+				if innerNode[0] == "FATHER":
+					married = Edge(node[1], 'MARRIED', innerNode[1])
 					graph.add_edge(married)	
-				elif node[0] == "CHILD":
-					children = Edge(node, "child", innerNode)
+					#print(married)
+				elif innerNode[0] == "CHILD":
+					children = Edge(node[1], 'PARENT', innerNode[1])
 					graph.add_edge(children)
+					#print(children)
 		elif node[0] == "FATHER":
 			for innerNode in nodes:
-				if node[0] == "MOTHER":
-					married = Edge(node, 'Married', innnerNode)
+				if innerNode[0] == "MOTHER":
+					married = Edge(node[1], 'MARRIED', innerNode[1])
 					graph.add_edge(married)
-				elif node[0] == "CHILD":
-					children = Edge(node, "child", innerNode)
+					#print(married)
+				elif innerNode[0] == "CHILD":
+					children = Edge(node[1], 'PARENT', innerNode[1])
 					graph.add_edge(children)
+					#print(children)
 		else:
 			for innerNode in nodes:
-				if node[0] == "MOTHER" or node[0] == "FATHER":
-					children = Edge(node, "is child", innerNode)
+				if innerNode[0] == "MOTHER" or innerNode[0] == "FATHER":
+					children = Edge(node[1], 'CHILD', innerNode[1])
 					graph.add_edge(children)
+					#print(children)
 	graph.commit()
-	query = "MATCH (a:MOTHER)-[d1:Married]->(b:FATHER) RETURN a.name, b.name"
+	
+def querying(graph):
+	print("Married Couples: ")
+	query1 = """MATCH (Mother:PARENT {relationship: "MOTHER"})-[relation:MARRIED]->(Father:PARENT {relationship: "FATHER"}) RETURN Mother.name, Father.name"""
+	graph.query(query1).pretty_print()
+	print("Children:")
+	query2 = """MATCH (Parent:PARENT)-[:PARENT]->(Child:CHILD) RETURN Parent.name, Parent.relationship, Child.name, Child.relationship """
+	graph.query(query2).pretty_print()
+
 
 def main():
 	graph = make_graph()
@@ -60,39 +78,8 @@ def main():
 		family[id] = person.__str__()
 	
 	makeNodes(family, graph)
-
+	querying(graph)
+	
 if __name__ == "__main__":
     main()
-'''
-# Reinitialize
-redisdb.flushdb() # also redisdb.delete(keyname)
-
-kphl = Node(label="airport", properties={"description": "Philadelphia International Airport"})
-kmco = Node(label="airport", properties={"description": "Orlando International Airport"})
-kbwi = Node(label="airport", properties={"description": "Thurgood Marshall Baltimore Washington International Airport"})
-kabq = Node(label="airport", properties={"description": "Albuquerque International Sunport"})
-
-graph.add_node(kphl)
-graph.add_node(kmco)
-graph.add_node(kbwi)
-graph.add_node(kabq)
-
-route1 = Edge(kphl, 'direct', kmco)
-route2 = Edge(kmco, 'direct', kabq)
-route3 = Edge(kbwi, 'direct', kabq)
-
-graph.add_edge(route1)
-graph.add_edge(route2)
-graph.add_edge(route3)
-
-graph.commit()
-
-# Direct routes
-query1 = """MATCH (a:airport)-[d1:direct]->(b:airport) RETURN a.description, b.description"""
-graph.query(query1).pretty_print()
-
-# One layover routes
-query2 = """MATCH (a:airport)-[d1:direct]->(b:airport)-[d2:direct]->(c:airport) RETURN a.description, b.description, c.description"""
-graph.query(query2).pretty_print()
-'''
 
