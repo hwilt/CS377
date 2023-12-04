@@ -1,4 +1,4 @@
-# CS377 DatatBase Design
+# CS377 Database Design
  Fall 2021 CS Course 
  Taught by Mongan at Ursinus College.
  
